@@ -84,6 +84,7 @@ const Footer = () => {
                         <h4 className="footer__title">Get the latest Rolling updates</h4>np
                         <form className="footer__form" onSubmit={handleSubmit}>
                             <input
+                                required
                                 className="footer__input"
                                 placeholder='Enter your email'
                                 value={email}
