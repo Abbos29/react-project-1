@@ -1,7 +1,9 @@
 // import React from 'react'
 import { Link } from 'react-router-dom'
+// import TelegramBot from 'node-telegram-bot-api'
 
 import './Footer.scss'
+import { useState } from 'react'
 
 const socLinks = [
     {
@@ -37,15 +39,57 @@ const socLinks = [
 ]
 
 const Footer = () => {
+    const [email, setEmail] = useState('')
+
+    const handleInputChange = (event) => {
+        setEmail(event.target.value);
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+        const telegramBotToken = '6610709503:AAGPO3Ot9XZVgDyuqCZ0ydAuJnmTNcEHvXk';
+        const chatId = '-4050367412';
+
+        const url = `https://api.telegram.org/bot${telegramBotToken}/sendMessage`;
+        const message = `New email: ${email}`;
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                chat_id: chatId,
+                text: message,
+            }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('Message sent:', data);
+                setEmail('');
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    };
+
+
     return (
         <section className="footer">
+
             <div className="container">
                 <div className="footer__wrapper">
                     <div className="footer__item">
-                        <h4 className="footer__title">Get the latest Rolling updates</h4>
-                        <form action="" className="footer__form">
-                            <input className="footer__input" placeholder='Enter your email' type="text" />
-                            <button className="footer__btn">Subscribe</button>
+                        <h4 className="footer__title">Get the latest Rolling updates</h4>np
+                        <form className="footer__form" onSubmit={handleSubmit}>
+                            <input
+                                className="footer__input"
+                                placeholder='Enter your email'
+                                value={email}
+                                onChange={handleInputChange}
+                                type="text" />
+                            <button className="footer__btn" type="submit">Subscribe</button>
                         </form>
                     </div>
 
